@@ -6,8 +6,12 @@ import java.util.List;
 public class CartaoComChecklist extends Cartao {
 
     private List<String> checklist;
+
+    public CartaoComChecklist(){
+        super();
+    }
     
-    public CartaoComChecklist(String id, String titulo, String descricao) {
+    public CartaoComChecklist(Long id, String titulo, String descricao) {
         super(id, titulo, descricao);
         this.checklist = new ArrayList<>();
     }

@@ -4,7 +4,11 @@ import com.example.kanbrunco.model.cartao.Cartao;
 
 public class CartaoSimples extends Cartao {
 
-    public CartaoSimples(String id, String titulo, String descricao) {
+    public CartaoSimples(){
+        super();
+    }
+
+    public CartaoSimples(Long id, String titulo, String descricao) {
         super(id, titulo, descricao);
     }
 

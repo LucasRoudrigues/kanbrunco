@@ -6,12 +6,15 @@ import java.util.List;
 
 public abstract class Cartao {
 
-    private String id;
+    private Long id;
     private String titulo;
     private String descricao;
     private List<Comentario> comentarios;
 
-    public Cartao(String id, String titulo, String descricao) {
+    public Cartao(){
+    }
+
+    public Cartao(Long id, String titulo, String descricao) {
         this.id = id;
         this.titulo = titulo;
         this.descricao = descricao;
@@ -26,11 +29,11 @@ public abstract class Cartao {
         this.comentarios.add(comentario);
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
