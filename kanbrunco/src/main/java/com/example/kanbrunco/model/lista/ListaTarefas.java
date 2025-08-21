@@ -7,13 +7,19 @@ import com.example.kanbrunco.model.cartao.Cartao;
 // Esta classe representa uma lista de tarefas dentro de um quadro.
 public class ListaTarefas {
 
-    private String id;
+    private Long id;
+    private Long quadroId;
     private String titulo;
     private List<Cartao> cartoes;
 
-    public ListaTarefas(String id, String titulo) {
+    // Construtor vazio para o DAO
+    public ListaTarefas() {
+    }
+     
+    public ListaTarefas(Long id, String titulo,long quadroId) {
         this.id = id;
         this.titulo = titulo;
+        this.quadroId = quadroId;
         this.cartoes = new ArrayList<>();
     }
     
@@ -28,11 +34,11 @@ public class ListaTarefas {
     }
     
     // Getters e Setters
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -43,8 +49,17 @@ public class ListaTarefas {
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
+    
+    public Long getQuadroId() {
+        return quadroId;
+    }
 
     public List<Cartao> getCartoes() {
         return cartoes;
     }
+
+	public void setQuadroId(long quadroId) {
+		this.quadroId = quadroId;
+		
+	}
 }

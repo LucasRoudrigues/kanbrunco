@@ -8,7 +8,7 @@ public class QuadroCompartilhado extends Quadro {
     
     private List<Usuario> usuariosCompartilhados;
 
-    public QuadroCompartilhado(String id, String titulo, Usuario proprietario) {
+    public QuadroCompartilhado(Long id, String titulo, Usuario proprietario) {
         super(id, titulo, proprietario);
         this.usuariosCompartilhados = new ArrayList<>();
     }

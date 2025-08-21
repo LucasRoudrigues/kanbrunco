@@ -1,56 +1,71 @@
 package com.example.kanbrunco.teste;
 
+import com.example.kanbrunco.dao.QuadroDAO;
+import com.example.kanbrunco.dao.ListaDAO;
 import com.example.kanbrunco.dao.UsuarioDAO;
+import com.example.kanbrunco.model.quadro.Quadro;
+import com.example.kanbrunco.model.lista.ListaTarefas;
 import com.example.kanbrunco.model.usuario.Usuario;
-import com.example.kanbrunco.model.usuario.UsuarioBasico;
 import com.example.kanbrunco.model.usuario.UsuarioAdmin;
+import com.example.kanbrunco.model.usuario.UsuarioBasico;
 import java.util.List;
+import java.util.Optional;
 
 public class UsuarioDAOTest {
 
     public static void main(String[] args) {
         
-        // 1. Instanciar o DAO
+        // 1. Instanciar os DAOs
         UsuarioDAO usuarioDAO = new UsuarioDAO();
+        QuadroDAO quadroDAO = new QuadroDAO(usuarioDAO);
+        ListaDAO listaDAO = new ListaDAO();
 
-        // 2. Criar alguns usuários para teste, usando a subclasse concreta
-       /* 
-        Usuario usuario1 = new UsuarioBasico();
-        usuario1.setNome("Alice");
-        usuario1.setEmail("alice1@email.com");
-
-        Usuario usuario2 = new UsuarioBasico();
-        usuario2.setNome("Bob");
-        usuario2.setEmail("bob1@email.com");
+        // 2. Criar e salvar um novo usuário
+        System.out.println("--- Teste de Cadastro de Usuário ---");
+        Usuario usuario = new UsuarioAdmin();
+        usuario.setNome("Everlast silva Santos");
+        usuario.setEmail("everlast.legal@email.com");
+        usuarioDAO.salvar(usuario);
+        System.out.println("Usuário salvo: ID=" + usuario.getId() + ", Nome=" + usuario.getNome() + "\n");
         
-        Usuario usuario3 = new UsuarioBasico();
-        usuario3.setNome("Julio Cesar");
-        usuario3.setEmail("julio_cleiton1@hotmail.com");
-        */
-        Usuario usuario1 = new UsuarioAdmin();
-       	usuario1.setNome("Everlast silva Santos");
-        usuario1.setEmail("everlast.legal@email.com");
+        // 3. Criar e salvar um novo quadro
+        System.out.println("--- Teste de Cadastro de Quadro ---");
+        Quadro quadro = new Quadro();
+        quadro.setTitulo("Quadro de Tarefas de khalil");
+        quadro.setProprietario(usuario); // Associa o quadro ao usuário
+        quadroDAO.salvar(quadro);
+        System.out.println("Quadro salvo: ID=" + quadro.getId() + ", Título=" + quadro.getTitulo() + "\n");
 
-        // 3. Salvar os usuários usando o DAO
-        System.out.println("Salvando usuários...");
-        usuarioDAO.salvar(usuario1);
-        //usuarioDAO.salvar(usuario2);
-       // usuarioDAO.salvar(usuario3);
+        // 4. Criar e salvar uma nova lista de tarefas
+        System.out.println("--- Teste de Cadastro de Lista ---");
+        ListaTarefas lista = new ListaTarefas();
+        lista.setTitulo("Tarefas em andamentor");
+        lista.setQuadroId(quadro.getId()); // Associa a lista ao ID do quadro
+        listaDAO.salvar(lista);
+        System.out.println("Lista salva: ID=" + lista.getId() + ", Título=" + lista.getTitulo() + "\n");
         
-        System.out.println("Usuários salvos com sucesso.");
-
-        // 4. Carregar todos os usuários do arquivo
-        System.out.println("Carregando usuários do arquivo...");
+        // 5. Verificar a persistência (lendo os arquivos)
+        System.out.println("--- Verificando a Persistência ---");
+        
+        // Carregar e exibir todos os usuários
         List<Usuario> usuariosCarregados = usuarioDAO.carregarTodos();
+        System.out.println("Usuários carregados do arquivo:");
+        for (Usuario u : usuariosCarregados) {
+            System.out.println("- Usuário ID: " + u.getId() + ", Nome: " + u.getNome() + ", Email: " + u.getEmail());
+        }
+        
+        // Carregar e exibir todos os quadros
+        List<Quadro> quadrosCarregados = quadroDAO.carregarTodos();
+        System.out.println("Quadros carregados do arquivo:");
+        for (Quadro q : quadrosCarregados) {
+            System.out.println("- Quadro ID: " + q.getId() + ", Título: " + q.getTitulo() + ", Proprietário ID: " + q.getProprietario().getId());
+        }
 
-        // 5. Verificar o resultado
-        if (!usuariosCarregados.isEmpty()) {
-            System.out.println("Usuários carregados:");
-            for (Usuario u : usuariosCarregados) {
-                System.out.println("ID: " + u.getId() + ", Nome: " + u.getNome() + ", Email: " + u.getEmail());
-            }
-        } else {
-            System.out.println("Nenhum usuário foi carregado.");
+        // Carregar e exibir todas as listas
+        List<ListaTarefas> listasCarregadas = listaDAO.carregarTodos();
+        System.out.println("\nListas carregadas do arquivo:");
+        for (ListaTarefas l : listasCarregadas) {
+            System.out.println("- Lista ID: " + l.getId() + ", Título: " + l.getTitulo() + ", Quadro ID: " + l.getQuadroId());
         }
     }
 }

@@ -5,15 +5,20 @@ import java.util.List;
 import com.example.kanbrunco.model.lista.ListaTarefas;
 import com.example.kanbrunco.model.usuario.Usuario;
 
-// Esta classe pode ser abstrata caso precise de métodos específicos implementados em subclasses
 public class Quadro {
 
-    private String id;
+    private Long id;
     private String titulo;
-    private Usuario proprietario; // O usuário que criou o quadro
+    private Usuario proprietario;
     private List<ListaTarefas> listas;
 
-    public Quadro(String id, String titulo, Usuario proprietario) {
+    // Construtor vazio para o DAO
+    public Quadro() {
+        this.listas = new ArrayList<>();
+    }
+
+    // Construtor com argumentos para a lógica de negócio
+    public Quadro(Long id, String titulo, Usuario proprietario) {
         this.id = id;
         this.titulo = titulo;
         this.proprietario = proprietario;
@@ -31,11 +36,11 @@ public class Quadro {
     }
     
     // Getters e Setters
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -51,6 +56,7 @@ public class Quadro {
         return proprietario;
     }
 
+    // O DAO irá usar este setter para associar o objeto Usuario
     public void setProprietario(Usuario proprietario) {
         this.proprietario = proprietario;
     }
