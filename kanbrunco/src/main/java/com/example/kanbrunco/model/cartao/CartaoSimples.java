@@ -8,8 +8,8 @@ public class CartaoSimples extends Cartao {
         super();
     }
 
-    public CartaoSimples(Long id, String titulo, String descricao) {
-        super(id, titulo, descricao);
+    public CartaoSimples(Long id, String titulo, String descricao, Long idquadro) {
+        super(id, titulo, descricao, idquadro);
     }
 
     @Override

@@ -11,8 +11,8 @@ public class CartaoComChecklist extends Cartao {
         super();
     }
     
-    public CartaoComChecklist(Long id, String titulo, String descricao) {
-        super(id, titulo, descricao);
+    public CartaoComChecklist(Long id, String titulo, String descricao, Long idquadro) {
+        super(id, titulo, descricao, idquadro);
         this.checklist = new ArrayList<>();
     }
 

@@ -10,15 +10,17 @@ public abstract class Cartao {
     private String titulo;
     private String descricao;
     private List<Comentario> comentarios;
+    private Long idquadro;
 
     public Cartao(){
     }
 
-    public Cartao(Long id, String titulo, String descricao) {
+    public Cartao(Long id, String titulo, String descricao, Long idquadro) {
         this.id = id;
         this.titulo = titulo;
         this.descricao = descricao;
         this.comentarios = new ArrayList<>();
+        this.idquadro = idquadro;
     }
 
     // Método abstrato para polimorfismo, a ser implementado nas subclasses.
@@ -55,5 +57,13 @@ public abstract class Cartao {
 
     public List<Comentario> getComentarios() {
         return comentarios;
+    }
+
+    public Long getIdQuadro() {
+        return idquadro;
+    }
+
+    public void setIdQuadro(Long idquadro) {
+        this.idquadro = idquadro;
     }
 }

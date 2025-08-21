@@ -3,9 +3,6 @@ package com.example.kanbrunco.dao;
 import com.example.kanbrunco.model.cartao.Cartao;
 import com.example.kanbrunco.model.cartao.CartaoComChecklist;
 import com.example.kanbrunco.model.cartao.CartaoSimples;
-import com.example.kanbrunco.model.usuario.Usuario;
-import com.example.kanbrunco.model.usuario.UsuarioAdmin;
-import com.example.kanbrunco.model.usuario.UsuarioBasico;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -33,7 +30,7 @@ public class CartaoDAO {
     public Cartao salvar(Cartao cartao) {
         
         //Analisar cartoes com mesmo titulo somente para um usuario
-        
+
         
         if (cartao.getId() == null) {
             cartao.setId(proximoId++);
@@ -56,11 +53,12 @@ public class CartaoDAO {
             String linha;
             while ((linha = reader.readLine()) != null) {
                 String[] partes = linha.split(";");
-                if (partes.length >= 4) {
+                if (partes.length >= 5) {
                     String tipo = partes[0];
                     Long id = Long.parseLong(partes[1]);
                     String titulo = partes[2];
                     String descricao = partes[3];
+                    Long idquadro = Long.parseLong(partes[4]);
 
                     Cartao cartao;
                     if ("simples".equalsIgnoreCase(tipo)) { // Verifica o tipo correto
@@ -74,6 +72,7 @@ public class CartaoDAO {
                     cartao.setId(id);
                     cartao.setTitulo(titulo);
                     cartao.setDescricao(descricao);
+                    cartao.setIdQuadro(idquadro);
                     cartoes.add(cartao);
                 }
             }
@@ -115,8 +114,8 @@ public class CartaoDAO {
     private void salvarTodos(List<Cartao> cartoes) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ARQUIVO_CARTOES))) {
             for (Cartao cartao : cartoes) {
-                String tipo = cartao instanceof CartaoComChecklist ? "checklist" : "basico"; // Verifica o tipo correto
-                String linha = tipo + ";" + cartao.getId() + ";" + cartao.getTitulo() + ";" + cartao.getDescricao() + "\n";
+                String tipo = cartao instanceof CartaoComChecklist ? "checklist" : "simples"; // Verifica o tipo correto
+                String linha = tipo + ";" + cartao.getId() + ";" + cartao.getTitulo() + ";" + cartao.getDescricao() + ";" + cartao.getIdQuadro() + "\n";
                 writer.write(linha);
             }
         } catch (IOException e) {
