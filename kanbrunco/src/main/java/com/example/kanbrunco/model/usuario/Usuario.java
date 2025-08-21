@@ -4,43 +4,46 @@ package com.example.kanbrunco.model.usuario;
 public abstract class Usuario {
  
  // Atributos privados para encapsulamento.
- private String id;
- private String nome;
- private String email;
-
+	private Long id;
+	private String nome;
+	private String email;
+ 
+ //Construtor vazio exigido pelo DAO para instanciar a classe ao ler o arquivo
+	public Usuario() {	 
+ }
+ 
  // Construtor
- public Usuario(String id, String nome, String email) {
-     this.id = id;
-     this.nome = nome;
-     this.email = email;
+	public Usuario(Long id, String nome, String email) {
+		this.id = id;
+		this.nome = nome;
+		this.email = email;
  }
 
  // Métodos abstratos para polimorfismo, que serão implementados nas subclasses.
- public abstract void criarQuadro();
- public abstract void gerenciarUsuarios();
+	public abstract void criarQuadro();
+	public abstract void gerenciarUsuarios();
 
- public String getId() {
-     return id;
+	public Long getId() {
+		return id;
  }
 
- public void setId(String id) {
-     this.id = id;
+	public void setId(Long id) {
+		this.id = id;
  }
 
- public String getNome() {
-     return nome;
+	public String getNome() {
+		return nome;
+     }
+	public void setNome(String nome) {
+		this.nome = nome;
  }
 
- public void setNome(String nome) {
-     this.nome = nome;
+	public String getEmail() {
+		return email;
  }
 
- public String getEmail() {
-     return email;
- }
-
- public void setEmail(String email) {
-     this.email = email;
+	public void setEmail(String email) {
+		this.email = email;
  }
 }
 

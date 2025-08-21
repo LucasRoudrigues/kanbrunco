@@ -7,8 +7,13 @@ import java.util.List;
 public class UsuarioBasico extends Usuario {
     
     private List<Quadro> quadros;
-
-    public UsuarioBasico(String id, String nome, String email) {
+    
+  //Construtor vazio exigido pelo DAO para instanciar a classe ao ler o arquivo
+    public UsuarioBasico() {
+        super();
+        this.quadros = new ArrayList<>();
+    }
+    public UsuarioBasico(Long id, String nome, String email) {
         super(id, nome, email);
         this.quadros = new ArrayList<>();
     }
