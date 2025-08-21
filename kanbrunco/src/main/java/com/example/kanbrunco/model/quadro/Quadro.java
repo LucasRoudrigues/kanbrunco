@@ -8,12 +8,12 @@ import com.example.kanbrunco.model.usuario.Usuario;
 // Esta classe pode ser abstrata caso precise de métodos específicos implementados em subclasses
 public class Quadro {
 
-    private String id;
+    private Long id;
     private String titulo;
     private Usuario proprietario; // O usuário que criou o quadro
     private List<ListaTarefas> listas;
 
-    public Quadro(String id, String titulo, Usuario proprietario) {
+    public Quadro(Long id, String titulo, Usuario proprietario) {
         this.id = id;
         this.titulo = titulo;
         this.proprietario = proprietario;
@@ -31,11 +31,11 @@ public class Quadro {
     }
     
     // Getters e Setters
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
