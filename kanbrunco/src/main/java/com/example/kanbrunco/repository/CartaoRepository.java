@@ -1,11 +1,12 @@
 package com.example.kanbrunco.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
 import com.example.kanbrunco.model.cartao.Cartao;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional; // Optional para findBy
 
-@Repository
-public interface CartaoRepository extends JpaRepository<Cartao, Long> {
+public class CartaoRepository {
+
+  private Map<String, Cartao> cartoes= new HashMap<>();
 
 }
