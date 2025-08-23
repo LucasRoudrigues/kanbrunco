@@ -1,4 +1,0 @@
-1;1;Tarefas a Fazer
-2;1;Tarefas a Fazer
-3;1;Tarefas em andamentor
-4;1;Tarefas em andamentor

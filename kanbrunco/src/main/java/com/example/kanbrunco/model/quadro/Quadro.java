@@ -24,6 +24,11 @@ public abstract class Quadro {
     private List<ListaTarefas> listas = new ArrayList<>();
 
     public Quadro() {}
+    
+  //MÉTODO PARA GERENCIAR A RELAÇÃO BIDIRECIONAL
+    public void adicionarLista(ListaTarefas lista) {
+        lista.setQuadro(this);
+        this.listas.add(lista); }
  
     public Long getId() { 
     	return id; }

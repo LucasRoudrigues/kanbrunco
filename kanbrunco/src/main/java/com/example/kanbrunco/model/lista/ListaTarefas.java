@@ -22,6 +22,11 @@ public class ListaTarefas {
     private List<Cartao> cartoes = new ArrayList<>();
 
     public ListaTarefas() {}
+    
+ //MÉTODO PARA GERENCIAR A RELAÇÃO BIDIRECIONAL 
+    public void adicionarCartao(Cartao cartao) {
+        cartao.setLista(this);
+        this.cartoes.add(cartao);}
  
     public Long getId() { 
     	return id; }
