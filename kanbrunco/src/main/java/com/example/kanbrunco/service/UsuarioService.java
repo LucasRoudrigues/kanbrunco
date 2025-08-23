@@ -1,6 +1,6 @@
 package com.example.kanbrunco.service;
 
-import com.example.kanbrunco.model.usuario.Usuario;
+import com.example.kanbrunco.model.usuario.*;
 import com.example.kanbrunco.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,8 +13,22 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
-
+    
     public Usuario salvarUsuario(Usuario usuario) {
+        return usuarioRepository.save(usuario);
+    }
+
+    public Usuario salvarUsuarioBasico(String nome, String email) {
+        UsuarioBasico usuario = new UsuarioBasico();
+        usuario.setNome(nome);
+        usuario.setEmail(email);
+        return usuarioRepository.save(usuario);
+    }
+    
+    public Usuario salvarUsuarioAdmin(String nome, String email) {
+        UsuarioAdmin usuario = new UsuarioAdmin();
+        usuario.setNome(nome);
+        usuario.setEmail(email);
         return usuarioRepository.save(usuario);
     }
 
