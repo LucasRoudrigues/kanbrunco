@@ -1,42 +1,32 @@
 package com.example.kanbrunco.model.comentario;
 
-import com.example.kanbrunco.model.usuario.Usuario;
-import com.example.kabrunco.model.cartao.Cartao;
-import java.time.LocalDateTime;
+import com.example.kanbrunco.model.cartao.Cartao;
+import jakarta.persistence.*;
 
-// Esta classe representa um comentário em um cartão.
+@Entity
 public class Comentario {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String texto;
-    private Usuario autor;
-    private LocalDateTime dataCriacao;
+
+    @ManyToOne
+    @JoinColumn(name = "cartao_id")
     private Cartao cartao;
 
-    public Comentario(Long id,String texto, Usuario autor, Cartao cartao) {
-        this.id=id;
-        this.cartao= cartao;
-        this.texto = texto;
-        this.autor = autor;
-        this.dataCriacao = LocalDateTime.now(); // Define a data de criação automaticamente.
-    }
+    public Comentario() {}
 
-    public Long getId(){
-        return id;
-    }
-    public String getTexto() {
-        return texto;
-    }
-
-    public Usuario getAutor() {
-        return autor;
-    }
-
-    public Cartao getCartao(){
-        return cartao;
-    }
-
-    public LocalDateTime getDataCriacao() {
-        return dataCriacao;
-    }
+    public Long getId() { 
+    	return id; }
+    public void setId(Long id) { 
+    	this.id = id; }
+    public String getTexto() { 
+    	return texto; }
+    public void setTexto(String texto) { 
+    	this.texto = texto; }
+    public Cartao getCartao() { 
+    	return cartao; }
+    public void setCartao(Cartao cartao) { 
+    	this.cartao = cartao; }
 }

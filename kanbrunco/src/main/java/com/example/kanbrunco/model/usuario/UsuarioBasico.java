@@ -1,41 +1,11 @@
 package com.example.kanbrunco.model.usuario;
-import com.example.kanbrunco.model.quadro.Quadro;
-import java.util.ArrayList;
-import java.util.List;
 
-// Atende ao requisito de herança.
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+
+@Entity
+@DiscriminatorValue("basico")
 public class UsuarioBasico extends Usuario {
     
-    private List<Quadro> quadros;
-    
-  //Construtor vazio exigido pelo DAO para instanciar a classe ao ler o arquivo
-    public UsuarioBasico() {
-        super();
-        this.quadros = new ArrayList<>();
-    }
-    public UsuarioBasico(Long id, String nome, String email) {
-        super(id, nome, email);
-        this.quadros = new ArrayList<>();
-    }
-
-    @Override
-    public void criarQuadro() {
-        // Lógica para criar um novo quadro.
-        // Um usuário básico pode criar e administrar seus próprios quadros.
-        System.out.println("Usuário básico " + getNome() + " criou um novo quadro.");
-    }
-
-    @Override
-    public void gerenciarUsuarios() {
-        // Usuário básico não tem permissão para gerenciar outros usuários.
-        System.out.println("Permissão negada. Apenas administradores podem gerenciar usuários.");
-    }
-    
-    public void addQuadro(Quadro quadro) {
-        this.quadros.add(quadro);
-    }
-
-    public List<Quadro> getQuadros() {
-        return quadros;
-    }
+    public UsuarioBasico() {}
 }

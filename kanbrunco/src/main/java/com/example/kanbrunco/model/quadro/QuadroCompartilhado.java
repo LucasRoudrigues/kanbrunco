@@ -1,37 +1,39 @@
 package com.example.kanbrunco.model.quadro;
 
+import com.example.kanbrunco.model.usuario.Usuario;
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import com.example.kanbrunco.model.usuario.Usuario;
 
+@Entity
+@DiscriminatorValue("compartilhado")
 public class QuadroCompartilhado extends Quadro {
-    
-    private List<Usuario> usuariosCompartilhados;
 
-    public QuadroCompartilhado(Long id, String titulo, Usuario proprietario) {
-        super(id, titulo, proprietario);
-        this.usuariosCompartilhados = new ArrayList<>();
-    }
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "quadro_compartilhado_usuarios",
+        joinColumns = @JoinColumn(name = "quadro_id"),
+        inverseJoinColumns = @JoinColumn(name = "usuario_id")
+    )
+    private List<Usuario> usuariosCompartilhados = new ArrayList<>();
 
-    // Método para compartilhar o quadro com um usuário
+    public QuadroCompartilhado() {}
+
     public void compartilharComUsuario(Usuario usuario) {
-        // Lógica para adicionar o usuário à lista de compartilhamento
-        if (!usuariosCompartilhados.contains(usuario)) {
+        if (!this.usuariosCompartilhados.contains(usuario)) {
             this.usuariosCompartilhados.add(usuario);
-            System.out.println("Quadro '" + getTitulo() + "' compartilhado com o usuário: " + usuario.getNome());
-        } else {
-            System.out.println("O quadro já está compartilhado com este usuário.");
         }
     }
     
-    // Método para remover o compartilhamento com um usuário
     public void removerCompartilhamento(Usuario usuario) {
         this.usuariosCompartilhados.remove(usuario);
-        System.out.println("Compartilhamento do quadro '" + getTitulo() + "' removido para o usuário: " + usuario.getNome());
     }
-
-    // Getter
+    
     public List<Usuario> getUsuariosCompartilhados() {
         return usuariosCompartilhados;
+    }
+
+    public void setUsuariosCompartilhados(List<Usuario> usuariosCompartilhados) {
+        this.usuariosCompartilhados = usuariosCompartilhados;
     }
 }
