@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Usuários — KanBrunco</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+  <a class="brand" href="/">KanBrunco</a>
+  <nav class="menu">
+    <a href="/quadros">Quadros</a>
+    <a href="/usuarios">Usuários</a>
+  </nav>
+  <div class="userbox">
+    <span th:if="${session.currentUserName != null}"
+          th:text="'Olá, ' + ${session.currentUserName}"></span>
+    <form th:if="${session.currentUserId != null}" action="/auth/logout" method="post" style="display:inline;">
+      <button class="linklike" type="submit">Sair</button>
+    </form>
+  </div>
+</header>
+  <main class="container">
+    <h1>Usuários</h1>
+
+    <section class="grid two">
+      <div class="card">
+        <h2>Novo usuário básico</h2>
+        <form action="/usuarios/criarBasico" method="post" class="stack">
+          <label>Nome
+            <input name="nome" required />
+          </label>
+          <label>E-mail
+            <input name="email" type="email" required />
+          </label>
+          <button class="btn primary">Criar Básico</button>
+        </form>
+      </div>
+      <div class="card">
+        <h2>Novo usuário admin</h2>
+        <form action="/usuarios/criarAdmin" method="post" class="stack">
+          <label>Nome
+            <input name="nome" required />
+          </label>
+          <label>E-mail
+            <input name="email" type="email" required />
+          </label>
+          <button class="btn">Criar Admin</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Usuários existentes</h2>
+      <div class="list" th:each="u : ${usuarios}">
+        <div class="row between">
+          <div>
+            <div class="title" th:text="${u.nome}">Nome</div>
+            <div class="muted">
+              <span th:text="${u.email}">email</span> ·
+              <span th:text="'ID: ' + ${u.id}">id</span>
+            </div>
+          </div>
+          <div class="actions">
+            <form action="/usuarios/atualizar" method="post" class="inline stack-compact">
+              <input type="hidden" name="id" th:value="${u.id}" />
+              <input name="nome" th:placeholder="${u.nome}" />
+              <input name="email" type="email" th:placeholder="${u.email}" />
+              <button class="btn small">Salvar</button>
+            </form>
+            <form action="/usuarios/deletar" method="post" class="inline">
+              <input type="hidden" name="id" th:value="${u.id}" />
+              <button class="btn danger small">Apagar</button>
+            </form>
+          </div>
+        </div>
+        <hr/>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comentários — KanBrunco</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+ <div th:replace="fragments/header :: header-menu"></div>
+  <main class="container">
+    <nav class="breadcrumb" th:if="${cartao != null}">
+      <a href="/quadros">Quadros</a>
+      <span> › </span>
+      <a th:href="@{/listas/quadro/} + ${cartao.lista.quadro.id}" th:text="${cartao.lista.quadro.titulo}"></a>
+      <span> › </span>
+      <a th:href="@{/cartoes/lista/} + ${cartao.lista.id}" th:text="${cartao.lista.titulo}"></a>
+      <span> › </span>
+      <span th:text="${cartao.titulo}"></span>
+    </nav>
+    <h1 th:text="'Comentários do Cartão: ' + ${cartao.titulo}">Comentários</h1>
+
+    <section class="card">
+      <h2>Novo comentário</h2>
+      <form th:action="@{/comentarios/criar}" method="post" class="stack">
+        <input type="hidden" name="cartaoId" th:value="${cartao.id}" /> <label>Texto
+          <textarea name="texto" required></textarea>
+        </label>
+        <button class="btn primary">Comentar</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Comentários existentes</h2>
+      <div class="list" th:each="cm : ${comentarios}">
+        <div class="row between">
+          <div>
+            <div class="title" th:text="${cm.texto}">Texto do comentário</div>
+            <div class="muted" th:text="'ID: ' + ${cm.id}"></div>
+          </div>
+          <div class="actions">
+            <form th:action="@{/comentarios/atualizar}" method="post" class="inline stack-compact">
+              <input type="hidden" name="id" th:value="${cm.id}" />
+              <input type="hidden" name="cartaoId" th:value="${cm.cartao.id}" /> <input name="texto" th:placeholder="${cm.texto}" />
+              <button class="btn small">Salvar</button>
+            </form>
+            <form th:action="@{/comentarios/deletar}" method="post" class="inline">
+              <input type="hidden" name="id" th:value="${cm.id}" />
+              <input type="hidden" name="cartaoId" th:value="${cm.cartao.id}" /> <button class="btn danger small">Apagar</button>
+            </form>
+          </div>
+        </div>
+        <hr/>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

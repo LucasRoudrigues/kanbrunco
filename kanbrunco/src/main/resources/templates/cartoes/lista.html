@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cartões — KanBrunco</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+	<div th:replace="fragments/header :: header-menu"></div>
+  <main class="container">
+    <nav class="breadcrumb" th:if="${lista != null}">
+      <a href="/quadros">Quadros</a>
+      <span> › </span>
+      <a th:href="@{/listas/quadro/} + ${lista.quadro.id}" th:text="${lista.quadro.titulo}"></a>
+      <span> › </span>
+      <span th:text="${lista.titulo}">Lista</span>
+    </nav>
+
+    <h1 th:if="${lista != null}" th:text="'Cartões da Lista: ' + ${lista.titulo}"></h1>
+    <h1 th:if="${lista == null}">Todos os Cartões</h1>
+
+    <section class="grid two" th:if="${lista != null}">
+      <div class="card">
+        <h2>Novo cartão nesta lista</h2>
+        <form th:action="@{/cartoes/criarSimples/} + ${lista.id}" method="post" class="stack">
+          <label>Título
+            <input name="titulo" required />
+          </label>
+          <label>Descrição
+            <textarea name="descricao"></textarea>
+          </label>
+          <button class="btn primary">Criar</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>Novo cartão com checklist</h2>
+        <form th:action="@{/cartoes/criarComChecklist/} + ${lista.id}" method="post" class="stack">
+          <label>Título
+            <input name="titulo" required />
+          </label>
+          <label>Descrição
+            <textarea name="descricao"></textarea>
+          </label>
+          <button class="btn">Criar com checklist</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="grid two" th:if="${lista == null}">
+      <div class="card">
+        <h2>Novo cartão simples</h2>
+        <form action="/cartoes/criarSimples" method="post" class="stack">
+          <label>Título
+            <input name="titulo" required />
+          </label>
+          <label>Descrição
+            <textarea name="descricao"></textarea>
+          </label>
+          <button class="btn primary">Criar</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>Novo cartão com checklist</h2>
+        <form action="/cartoes/criarComChecklist" method="post" class="stack">
+          <label>Título
+            <input name="titulo" required />
+          </label>
+          <label>Descrição
+            <textarea name="descricao"></textarea>
+          </label>
+          <button class="btn">Criar com checklist</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 th:if="${lista != null}">Cartões desta lista</h2>
+      <h2 th:if="${lista == null}">Todos os cartões</h2>
+      
+      <div class="list" th:each="c : ${cartoes}">
+        <div class="row between">
+          <div>
+            <div class="title" th:text="${c.titulo}">Título</div>
+            <div class="muted" th:text="${c.descricao}">Descrição</div>
+            <div class="muted">
+              <span th:text="'ID: ' + ${c.id}"></span> ·
+              <span th:text="'Tipo: ' + ${c.tipo}"></span>
+            </div>
+          </div>
+          <div class="actions">
+            <form th:action="@{/cartoes/atualizar}" method="post" class="stack-compact inline">
+              <input type="hidden" name="id" th:value="${c.id}" />
+              <input type="hidden" name="listaId" th:value="${lista.id}" />
+              <input name="titulo" th:placeholder="${c.titulo}" />
+              <input name="descricao" th:placeholder="${c.descricao}" />
+              <button class="btn small">Salvar</button>
+            </form>
+            <form th:action="@{/cartoes/deletar}" method="post" class="inline">
+              <input type="hidden" name="id" th:value="${c.id}" />
+              <input type="hidden" name="listaId" th:value="${lista.id}" />
+              <button class="btn danger small">Apagar</button>
+            </form>
+          </div>
+        </div>
+
+        <div th:if="${c instanceof T(com.example.kanbrunco.model.cartao.CartaoComChecklist)}" class="sub-row checklist-block">
+          <div th:with="checklistCartao=${c}">
+            <h4>Checklist</h4>
+            <ul>
+              <li th:each="item, iterStat : ${checklistCartao.checklist}">
+                <form th:action="@{/cartoes/checklist/marcarItem}" method="post" class="inline stack-compact">
+                  <input type="hidden" name="cartaoId" th:value="${c.id}" />
+                  <input type="hidden" name="index" th:value="${iterStat.index}" />
+                  <input type="hidden" name="feito" th:value="true" />
+                  <span th:text="${item}"></span>
+                  <button class="btn small">Marcar feito</button>
+                </form>
+                <form th:action="@{/cartoes/checklist/removerItem}" method="post" class="inline">
+                  <input type="hidden" name="cartaoId" th:value="${c.id}" />
+                  <input type="hidden" name="index" th:value="${iterStat.index}" />
+                  <button class="btn danger small">Remover</button>
+                </form>
+              </li>
+            </ul>
+
+            <form th:action="@{/cartoes/checklist/adicionarItem}" method="post" class="stack-compact inline">
+              <input type="hidden" name="cartaoId" th:value="${c.id}" />
+              <input name="item" placeholder="Novo item" required />
+              <button class="btn small">Adicionar</button>
+            </form>
+          </div>
+        </div>
+        <div class="sub-row">
+          <a class="link" th:href="@{/comentarios/cartao/} + ${c.id}">Ver comentários deste cartão</a>
+        </div>
+        <hr/>
+      </div>
+    </section>
+
+    <div class="actions" th:if="${lista != null}">
+      <a th:href="@{/listas/quadro/} + ${lista.quadro.id}" class="btn secondary">Voltar para Listas</a>
+    </div>
+  </main>
+</body>
+</html>

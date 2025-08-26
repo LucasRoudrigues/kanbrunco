@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login — KanBrunco</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body class="auth-body">
+  <header class="topbar">
+  <a class="brand" href="/">KanBrunco</a>
+  <nav class="menu">
+    <a href="/quadros">Quadros</a>
+    <a href="/usuarios">Usuários</a>
+  </nav>
+  <div class="userbox">
+    <span th:if="${session.currentUserName != null}"
+          th:text="'Olá, ' + ${session.currentUserName}"></span>
+    <form th:if="${session.currentUserId != null}" action="/auth/logout" method="post" style="display:inline;">
+      <button class="linklike" type="submit">Sair</button>
+    </form>
+  </div>
+</header>
+  <main class="auth-wrapper">
+    <section class="card auth-card">
+		<section class="card auth-card">
+		  <h1>Entrar</h1>
+		  <p class="muted">Apenas seu e-mail para entrar.</p>
+		  <form action="/auth/login" method="post" class="stack">
+		    <label>E-mail
+		      <input name="email" type="email" required placeholder="voce@exemplo.com" />
+		    </label>
+		    <button type="submit" class="btn primary">Entrar</button>
+		  </form>
+		  <p th:if="${loginErro != null}" class="error" th:text="${loginErro}"></p>
+		</section>
+
+    <section class="card auth-card">
+      <h2>Criar conta</h2>
+      <form action="/auth/registrar" method="post" class="stack">
+        <label>Nome
+          <input name="nome" type="text" required placeholder="Seu nome" />
+        </label>
+        <label>E-mail
+          <input name="email" type="email" required placeholder="voce@exemplo.com" />
+        </label>
+        <fieldset class="inline">
+          <legend>Tipo</legend>
+          <label><input type="radio" name="tipo" value="basico" checked /> Básico</label>
+          <label><input type="radio" name="tipo" value="admin" /> Admin</label>
+        </fieldset>
+        <button type="submit" class="btn">Cadastrar & Entrar</button>
+      </form>
+      <p th:if="${cadastroMsg != null}" class="ok" th:text="${cadastroMsg}"></p>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Listas — KanBrunco</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+ <div th:replace="fragments/header :: header-menu"></div>
+  <main class="container">
+    <h1>Listas</h1>
+
+    <section class="card">
+      <h2>Criar lista</h2>
+      <form action="/listas/criar" method="post" class="stack">
+        <label>Título
+          <input name="titulo" required placeholder="Ex.: A fazer" />
+        </label>
+        <label>ID do Quadro
+          <input name="quadroId" type="number" required placeholder="ID do quadro" />
+        </label>
+        <button class="btn primary">Criar lista</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Listas existentes</h2>
+      <div class="list" th:each="l : ${listas}">
+        <div class="row between center">
+          <div>
+            <div class="title" th:text="${l.titulo}">Título da lista</div>
+            <div class="muted">
+              <span th:text="'ID: ' + ${l.id}"></span> ·
+              <span th:text="'Quadro: ' + (${l.quadro} != null ? ${l.quadro.id} : '—')"></span>
+            </div>
+          </div>
+          <div class="actions">
+            <form action="/listas/atualizar" method="post" class="inline stack-compact">
+              <input type="hidden" name="id" th:value="${l.id}" />
+              <input type="hidden" name="quadroId" th:value="${l.quadro.id}" /> <input name="titulo" th:placeholder="${l.titulo}" />
+              <button class="btn small">Renomear</button>
+            </form>
+            <form action="/listas/deletar" method="post" class="inline">
+              <input type="hidden" name="id" th:value="${l.id}" />
+              <input type="hidden" name="quadroId" th:value="${l.quadro.id}" /> <button class="btn danger small">Apagar</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="sub-row">
+          <form action="/listas/adicionarCartao" method="post" class="inline stack-compact">
+            <input type="hidden" name="listaId" th:value="${l.id}" />
+            <input name="cartaoId" type="number" placeholder="ID de um cartão existente" required />
+            <button class="btn small">Adicionar cartão</button>
+          </form>
+          <a class="link" th:href="@{/cartoes/lista/} + ${l.id}">Ver cartões desta lista</a>
+        </div>
+        <hr/>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quadros — KanBrunco</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+  <div th:replace="fragments/header :: header-menu"></div>
+  
+  <main class="container">
+    <div class="header-row">
+      <h1>Seus quadros</h1>
+      <div class="hint" th:if="${session.currentUserId == null}">
+        Você não está autenticado. <a href="/">Fazer login</a>
+      </div>
+    </div>
+    
+    <div th:if="${erro != null}" class="alert danger">
+        <p th:text="${erro}"></p>
+    </div>
+
+    <section class="grid two">
+      <div class="card">
+        <h2>Criar quadro normal</h2>
+        <form action="/quadros/criarNormal" method="post" class="stack">
+          <label>Título
+            <input name="titulo" required placeholder="Ex.: Projeto X" />
+          </label>
+          <input type="hidden" name="proprietarioId" th:value="${session.currentUserId}" />
+          <button class="btn primary">Criar</button>
+        </form>
+      </div>
+
+      <div class="card" th:if="${session.currentUserTipo == 'UsuarioAdmin'}">
+        <h2>Criar quadro compartilhado</h2>
+        <form action="/quadros/criarCompartilhado" method="post" class="stack">
+          <label>Título
+            <input name="titulo" required placeholder="Ex.: Time Marketing" />
+          </label>
+          <input type="hidden" name="proprietarioId" th:value="${session.currentUserId}" />
+          <button class="btn">Criar compartilhado</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Lista de quadros</h2>
+      <div class="list" th:if="${quadros != null}" th:each="info : ${quadros}">
+        <div th:with="q=${info.quadro}">
+          <div class="row between center">
+            <div>
+              <div class="title" th:text="${q.titulo}">Título do quadro</div>
+              <div class="muted" th:text="'ID: ' + ${q.id}"></div>
+            </div>
+            <div class="actions">
+              <form action="/quadros/atualizar" method="post" class="inline stack-compact">
+                <input type="hidden" name="id" th:value="${q.id}" />
+                <input name="titulo" th:placeholder="${q.titulo}" />
+                <button class="btn small">Renomear</button>
+              </form>
+              <form action="/quadros/deletar" method="post" class="inline">
+                <input type="hidden" name="id" th:value="${q.id}" />
+                <button class="btn danger small">Apagar</button>
+              </form>
+            </div>
+          </div>
+
+          <div class="sub-row">
+            <form action="/listas/criar" method="post" class="inline stack-compact">
+              <input type="hidden" name="quadroId" th:value="${q.id}" />
+              <input name="titulo" placeholder="Nova lista para este quadro" required />
+              <button class="btn small">Adicionar lista</button>
+            </form>
+            
+            <a class="link" th:href="@{/listas/quadro/} + ${q.id}">Ver listas deste quadro</a>
+            
+            <div th:if="${info.isCompartilhado}">
+              <form action="/quadros/compartilhar" method="post" class="inline stack-compact">
+                <input type="hidden" name="quadroId" th:value="${q.id}" />
+                <input name="usuarioId" placeholder="ID do usuário para compartilhar" required />
+                <button class="btn small">Compartilhar</button>
+              </form>
+            </div>
+          </div>
+          <hr/>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
