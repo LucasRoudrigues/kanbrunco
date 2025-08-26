@@ -25,11 +25,12 @@ public abstract class Quadro {
 
     public Quadro() {}
     
-  //MÉTODO PARA GERENCIAR A RELAÇÃO BIDIRECIONAL
+  //Metodo para gerenciar a relação bidirecional (Quadro e Lista)
     public void adicionarLista(ListaTarefas lista) {
         lista.setQuadro(this);
         this.listas.add(lista); }
  
+    // Metodos gets e set da classe quadro
     public Long getId() { 
     	return id; }
     public void setId(Long id) { 

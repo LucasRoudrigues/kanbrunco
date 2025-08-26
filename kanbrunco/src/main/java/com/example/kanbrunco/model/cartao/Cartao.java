@@ -38,6 +38,7 @@ public abstract class Cartao {
         }
     }
 
+    // Metodos gets e sets da classe cartão
     public Long getId() { 
     	return id; }
     public void setId(Long id) { 
@@ -58,4 +59,8 @@ public abstract class Cartao {
     	return lista; }
     public void setLista(ListaTarefas lista) { 
     	this.lista = lista; }
+    @Transient
+    public String getTipo() {
+        return this.getClass().getSimpleName();
+    }
 }

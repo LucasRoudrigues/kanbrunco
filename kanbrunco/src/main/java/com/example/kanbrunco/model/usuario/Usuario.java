@@ -15,13 +15,16 @@ public abstract class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
+    @Column(nullable = false, unique = true)
     private String email;
 
+    // Lista de quadros de um usuario
     @OneToMany(mappedBy = "proprietario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Quadro> quadros = new ArrayList<>();
 
     public Usuario() {}
 
+    // Metodos gets e sets da classe usuario
     public Long getId() { 
     	return id; }
     public void setId(Long id) { 
@@ -38,4 +41,7 @@ public abstract class Usuario {
     	return quadros; }
     public void setQuadros(List<Quadro> quadros) { 
     	this.quadros = quadros; }
+    public String getTipo() {
+        return this.getClass().getSimpleName();
+    }
 }

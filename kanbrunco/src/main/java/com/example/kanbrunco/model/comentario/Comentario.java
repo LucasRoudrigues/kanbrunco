@@ -17,6 +17,7 @@ public class Comentario {
 
     public Comentario() {}
 
+    // Metodos gets e sets da classe comentario
     public Long getId() { 
     	return id; }
     public void setId(Long id) { 

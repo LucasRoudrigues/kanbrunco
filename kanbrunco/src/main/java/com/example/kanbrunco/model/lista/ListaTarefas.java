@@ -23,11 +23,12 @@ public class ListaTarefas {
 
     public ListaTarefas() {}
     
- //MÉTODO PARA GERENCIAR A RELAÇÃO BIDIRECIONAL 
+    // Metodo para gerenciar a relação bidirecional (Lista e Cartão)
     public void adicionarCartao(Cartao cartao) {
         cartao.setLista(this);
         this.cartoes.add(cartao);}
- 
+
+    // Metodos gets e sets da classe ListaTarefas
     public Long getId() { 
     	return id; }
     public void setId(Long id) { 

@@ -19,6 +19,7 @@ public class QuadroCompartilhado extends Quadro {
 
     public QuadroCompartilhado() {}
 
+    // Metodos da subclasse quadro compartilhado
     public void compartilharComUsuario(Usuario usuario) {
         if (!this.usuariosCompartilhados.contains(usuario)) {
             this.usuariosCompartilhados.add(usuario);
