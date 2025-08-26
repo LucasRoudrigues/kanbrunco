@@ -49,7 +49,7 @@ public class ComentarioService {
             comentario.setCartao(cartao);
             return comentarioRepository.save(comentario);
         }
-        return null;		// Retorna nulo caso não ache o cartão
+        return null;
     }
 
     public void removerComentario(Long comentarioId) {
