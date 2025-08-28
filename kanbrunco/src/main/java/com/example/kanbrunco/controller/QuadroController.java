@@ -35,7 +35,7 @@ public class QuadroController {
         Long userId = (Long) session.getAttribute("currentUserId");
         
         if (userId == null) {
-            return "redirect:/";
+            return "redirect:/auth/login";
         }
 
         Usuario usuario = usuarioService.buscarPorId(userId).orElseThrow();
